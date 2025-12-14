@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  /* Updated to Slate-900 hex for consistency with the components */
+  --foreground: #2a66f4; 
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  /* Ensures Tailwind uses your Geist font first, falling back to system fonts */
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #ece8e8;
+    --foreground: #ededed;
+  }
+}
+
+/* Base Styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  
+  /* CRITICAL for the modern, clean look */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Matches the Indigo theme used in your buttons */
+::selection {
+  background-color: #e2e4ed; /* indigo-100 */
+  color: #312e81; /* indigo-900 */
+}
