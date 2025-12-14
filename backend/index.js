@@ -77,7 +77,7 @@ app.get("/campaigns", async (req, res) => {
   res.json(campaigns);
 });
 
-/
+
 app.listen(process.env.PORT, () => {
   console.log(`Backend running on port ${process.env.PORT}`);
 });
