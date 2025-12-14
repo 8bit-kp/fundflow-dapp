@@ -10,12 +10,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// MongoDB connection
+
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.error("Mongo error:", err));
 
-// Campaign schema (inline, no src folder)
+
 const campaignSchema = new mongoose.Schema({
   campaignAddress: { type: String, unique: true },
   creator: String,
@@ -27,10 +27,10 @@ const campaignSchema = new mongoose.Schema({
 
 const Campaign = mongoose.model("Campaign", campaignSchema);
 
-// Blockchain listener
+
 const provider = new ethers.JsonRpcProvider(process.env.SEPOLIA_RPC_URL);
 
-// 👉 ABI MUST BE ARRAY ONLY
+
 const factoryABI = [
   {
     "type": "event",
@@ -51,7 +51,7 @@ const factory = new ethers.Contract(
   provider
 );
 
-// Listen to events
+
 factory.on("CampaignCreated", async (campaign, creator, goal, deadline, event) => {
   console.log("New campaign:", campaign);
 
@@ -64,20 +64,20 @@ factory.on("CampaignCreated", async (campaign, creator, goal, deadline, event) =
       txHash: event.transactionHash
     });
   } catch (err) {
-    // Ignore duplicate events
+    
     if (err.code !== 11000) {
       console.error(err);
     }
   }
 });
 
-// API endpoint
+
 app.get("/campaigns", async (req, res) => {
   const campaigns = await Campaign.find().sort({ createdAt: -1 });
   res.json(campaigns);
 });
 
-// Start server
+/
 app.listen(process.env.PORT, () => {
   console.log(`Backend running on port ${process.env.PORT}`);
 });
